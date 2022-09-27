@@ -11,7 +11,7 @@ const createUser = async function (req,res) {
         if(!title) return res.status(400).send({ status: false, message: "Please provide title"})
         if(!validUserTitle(title)) return res.status(400).send({ status: false, message: "Please provide title from these [Mr,Mrs,Miss]"})
         if(!name) return res.status(400).send({ status: false, message: "Please provide name of user"})
-        if(!validName(name)) return res.status(400).send({ status: false, message: "Please provide name in valid format" })
+        if(!validName(name.trim())) return res.status(400).send({ status: false, message: "Please provide name in valid format" })
         if(!phone) return res.status(400).send({ status: false, message: "Please provide phone"})
         if(!validPhone(phone)) return res.status(400).send({ status: false, message: "Please provide phone in valid format" })
         let phoneExist = await userModel.findOne({phone:phone})
@@ -30,7 +30,7 @@ const createUser = async function (req,res) {
             if(!validAddress(address)) return res.status(400).send({ status: false, message: "Please provide all valid field in address"})
         }
         // --------- End ------------
-        console.log(typeof address)
+        // console.log(typeof address)
         let savedData = await userModel.create(data)
         res.status(201).send({status :true,message: 'Success', data : savedData})
     }
